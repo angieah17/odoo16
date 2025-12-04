@@ -1,0 +1,22 @@
+# Python
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*egg-info
+
+#Odoo
+filestore/
+sessions/
+*.log
+
+#Docker
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

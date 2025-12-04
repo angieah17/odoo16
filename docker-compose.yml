@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:14
+    container_name: db14
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin 
+      POSTGRES_DB: postgres
+    restart: always
+    volumes: 
+      - db14-data:/var/lib/postgresql/data
+    networks:
+      - odoo-net
+
+odoo16:
+    image: odoo:16
+    container_name: odoo16
+    depends_on:
+        - db
+    environment:
+      - HOST: db
+      - USER: admin
+      - PASSWORD: admin
+    ports:
+      - "8069:8069"    
+    volumes:
+      - odoo16-data:/var/lib/odoo #este vol lo tiene solo docker, si se elimina el el contenedor, se levanta con este docker compose y los datos persisten aquí
+      - ./config_odoo:/etc/odoo #/estos 3 volumnes se tienen en el PC HOST
+      - ./custom-addons:/mnt/extra-addons
+      - ./logs:/var/log/odoo
+    networks:
+    - odoo-net  
+
+
+volumes:
+  db14-data:
+  odoo16-data:
+
+networks:
+  odoo-net:
+
+#odoo16-data y db14-data son zonas de almacenamiento en docker desktop, no se tiene acceso desde el pc host
+#la persistencia de los datos se mantienen en estos volumenes
+
+
+
+
+    
